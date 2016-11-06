@@ -1,0 +1,14 @@
+<div class="col-md-8 col-md-offset-2">
+    <ul class="list-group">
+        <li *ngFor="let p of players" 
+            [class.selected]="p === selectedPlayer"
+            (click)="onSelect(p)"
+            class="list-group-item">
+            <span>{{p.name}}</span>
+        </li>
+    </ul>
+    <div *ngIf="selectedPlayer">
+        <h2>{{selectedPlayer.name | uppercase}}</h2>
+        <button (click)="gotoDetail()">View Details</button>
+    </div>
+</div>

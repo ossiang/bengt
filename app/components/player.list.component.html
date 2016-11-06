@@ -1,0 +1,8 @@
+<div class="panel panel-default">
+  <div class="panel-heading">{{title}} ({{players.length}})</div>
+  <ul class="list-group">
+    <li *ngFor="let player of players" (click)="gotoDetail(player)" class="list-group-item">
+      {{player.username}}
+    </li>
+  </ul>
+</div>

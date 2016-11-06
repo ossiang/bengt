@@ -1,0 +1,29 @@
+<div class="col-md-4 col-md-offset-2">
+  <div class="form-group">
+    <label for="date">Datum</label>
+    <select class="form-control" [(ngModel)]="selectedTraining" (ngModelChange)="salmon()">
+      <option *ngFor="let t of trainings" [ngValue]="t">
+        {{t.date}}
+      </option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="player">Spelare</label>
+    <select class="form-control" [(ngModel)]="selectedPlayer">
+      <option *ngFor="let player of allPlayers" [ngValue]="player"> 
+        {{player.username}}
+      </option>
+    </select>
+  </div>
+  <div class="form-group">
+    <button class="btn btn-success" (click)="register()" [disabled]="registerDisabled()">Kommer</button>
+    <button class="btn btn-danger" (click)="unregister()" [disabled]="unregisterDisabled()">Kan inte...</button>
+    <!--<div>{{selectedTraining | json}}</div>
+    <div>{{selectedPlayer | json}}</div>-->
+  </div>
+</div>
+<div class="col-md-4">
+  <player-list [players]="attending" [title]="'Kommer'"></player-list>
+  <player-list [players]="notAttending" [title]="'Kommer inte'"></player-list>
+  <player-list [players]="notAnswered" [title]="'Inget svar'"></player-list>
+</div>
