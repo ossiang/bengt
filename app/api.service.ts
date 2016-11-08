@@ -7,8 +7,9 @@ import { TrainingRegistration }           from './models/trainingRegistration';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
-export class PlayerService {
-    private url = 'http://localhost:8080/bengt/api.php?f=';  // URL to web api
+export class ApiService {
+    // private url = 'http://localhost:8080/bengt/api.php?f=';  // URL to web api
+    private url = 'http://bengtfotboll.se/api/api.php?f=';  // URL to web api
 
     constructor(private http: Http) { }
 
@@ -29,6 +30,11 @@ export class PlayerService {
 
     getPlayer(id : string) : Promise<Player> {
         return this.getPlayers().then(result => result.find(p => p.id === id));
+    }
+
+    getMessages(training : Training) : Promise<any[]> {
+        return this.get(`getMessages&trainingId=${training.id}`)
+            .then(data => data as any[]);
     }
 
     register(training : Training, player : Player, status) : Promise<boolean> {

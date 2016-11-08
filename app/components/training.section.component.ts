@@ -1,7 +1,7 @@
 import { Component, OnInit }    from '@angular/core'
 import { Player }               from '../models/player'
 import { Training }             from '../models/training'
-import { PlayerService }        from '../player.service'
+import { ApiService }           from '../api.service'
 
 @Component({
   moduleId: module.id,
@@ -20,15 +20,15 @@ export class TrainingSectionComponent implements OnInit {
     notAnswered : Player[] = [];
 
     constructor(
-        private playerService : PlayerService
+        private apiService : ApiService
     ){
     }
 
     ngOnInit() : void {
-        let p1 = this.playerService.getPlayers().then(allPlayers => {
+        let p1 = this.apiService.getPlayers().then(allPlayers => {
             this.allPlayers = allPlayers;
         });
-        let p2 = this.playerService.getTrainings().then(trainings => {
+        let p2 = this.apiService.getTrainings().then(trainings => {
             this.trainings = trainings;
             this.selectedTraining = trainings[0];
         });
@@ -36,7 +36,7 @@ export class TrainingSectionComponent implements OnInit {
     }
 
     register() {
-        this.playerService.register(this.selectedTraining, this.selectedPlayer, "1").then(r => this.salmon());
+        this.apiService.register(this.selectedTraining, this.selectedPlayer, "1").then(r => this.salmon());
     }
 
     registerDisabled() {
@@ -44,7 +44,7 @@ export class TrainingSectionComponent implements OnInit {
     }
 
     unregister() {
-        this.playerService.register(this.selectedTraining, this.selectedPlayer, "0").then(r => this.salmon());
+        this.apiService.register(this.selectedTraining, this.selectedPlayer, "0").then(r => this.salmon());
     }
 
     unregisterDisabled() {
@@ -52,7 +52,7 @@ export class TrainingSectionComponent implements OnInit {
     }
 
     private salmon() {
-        this.playerService.getTrainingRegistrations(this.selectedTraining).then(result => {
+        this.apiService.getTrainingRegistrations(this.selectedTraining).then(result => {
             this.attending = [];
             this.notAttending = [];
             this.notAnswered = [];

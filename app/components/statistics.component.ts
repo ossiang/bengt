@@ -1,6 +1,6 @@
 import { Component }      from '@angular/core';
 import { Player }         from '../models/player';
-import { PlayerService }  from '../player.service';
+import { ApiService }     from '../api.service';
 import { OnInit }         from '@angular/core';
 import { Router }         from '@angular/router'
 
@@ -15,7 +15,7 @@ export class StatisticsComponent implements OnInit {
   selectedPlayer: Player;
 
   constructor(
-    private playerService : PlayerService,
+    private apiService : ApiService,
     private router : Router
     ){}
   
@@ -24,7 +24,7 @@ export class StatisticsComponent implements OnInit {
   }
 
   initPlayers() : void {
-    this.playerService.getPlayers().then(result => this.players = result);
+    this.apiService.getPlayers().then(result => this.players = result);
   }
   
   onSelect(player : Player): void {

@@ -11,7 +11,7 @@ import { PageHeaderComponent }      from './components/page.header.component';
 import { TrainingSectionComponent } from './components/training.section.component';
 import { PlayerList }               from './components/player.list.component'
 
-import { PlayerService }            from './player.service'
+import { ApiService }               from './api.service'
 
 import { routing }                  from './app.routing'
 
@@ -35,7 +35,7 @@ import './rxjs.extensions'
     TrainingSectionComponent
   ],
   providers: [ 
-    PlayerService
+    ApiService
   ],
   bootstrap: [ 
     AppComponent 

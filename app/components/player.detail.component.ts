@@ -1,7 +1,7 @@
 import { Component, OnInit }      from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router'
 import { Location }               from '@angular/common'
-import { PlayerService }          from '../player.service'
+import { ApiService }             from '../api.service'
 import { Player }                 from '../models/player';
 
 @Component({
@@ -13,7 +13,7 @@ export class PlayerDetailComponent implements OnInit {
     player: Player;
 
     constructor(
-      private playerService : PlayerService,
+      private apiService : ApiService,
       private route : ActivatedRoute,
       private location : Location
     ) {
@@ -23,12 +23,12 @@ export class PlayerDetailComponent implements OnInit {
     ngOnInit() : void {
       this.route.params.forEach((params: Params) => {
         let id = +params['id'];
-        //this.playerService.getPlayer(id).then(result => this.player = result);
+        //this.apiService.getPlayer(id).then(result => this.player = result);
       })
     }
 
     save() : void {
-      // this.playerService.update(this.player).then(() => this.goBack())
+      // this.apiService.update(this.player).then(() => this.goBack())
     }
 
     goBack() : void {
