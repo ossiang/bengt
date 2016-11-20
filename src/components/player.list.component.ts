@@ -3,8 +3,7 @@ import { Player } from '../models/player'
 import { Router } from '@angular/router'
 
 @Component({
-  moduleId: module.id,
-  templateUrl: 'player.list.component.html',
+  templateUrl: './player.list.component.html',
   selector: 'player-list'
 })
 export class PlayerList {
@@ -13,7 +12,7 @@ export class PlayerList {
 
     @Input()
     title : string;
-    
+
     constructor(
         private router : Router
     ){

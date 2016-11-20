@@ -1,7 +1,7 @@
 import { NgModule }                 from '@angular/core';
 import { BrowserModule }            from '@angular/platform-browser';
 import { FormsModule }              from '@angular/forms'
-import { HttpModule, JsonpModule }  from '@angular/http'
+import { HttpModule }  from '@angular/http'
 
 import { AppComponent }             from './components/app.component';
 import { StatisticsComponent }      from './components/statistics.component';
@@ -18,32 +18,31 @@ import { ApiService }               from './api.service'
 
 import { routing }                  from './app.routing'
 
-import './rxjs.extensions'
+// import './rxjs.extensions'
 
 @NgModule({
-  imports: [ 
-    BrowserModule, 
-    FormsModule, 
-    HttpModule, 
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule,
     routing
   ],
-  declarations: [ 
-    AppComponent, 
-    StatisticsComponent, 
-    PlayerDetailComponent, 
+  declarations: [
+    AppComponent,
+    StatisticsComponent,
+    PlayerDetailComponent,
     NavbarComponent,
     PageHeaderComponent,
     PlayerList,
-    StatisticsComponent,
     TrainingSectionComponent,
     CommentList,
     DatePipe
   ],
-  providers: [ 
+  providers: [
     ApiService
   ],
-  bootstrap: [ 
-    AppComponent 
+  bootstrap: [
+    AppComponent
   ],
 })
 export class AppModule { }

@@ -6,9 +6,7 @@ import { Router }         from '@angular/router'
 
 @Component({
   //selector: 'whatever',
-  templateUrl: 'statistics.component.html',
-  moduleId: module.id
-  
+  templateUrl: './statistics.component.html',
 })
 export class StatisticsComponent implements OnInit {
   players: Player[];
@@ -18,7 +16,7 @@ export class StatisticsComponent implements OnInit {
     private apiService : ApiService,
     private router : Router
     ){}
-  
+
   ngOnInit(): void {
     this.initPlayers();
   }
@@ -26,10 +24,10 @@ export class StatisticsComponent implements OnInit {
   initPlayers() : void {
     this.apiService.getPlayers().then(result => this.players = result);
   }
-  
+
   onSelect(player : Player): void {
     this.selectedPlayer = player;
-  } 
+  }
 
   gotoDetail() : void {
     let link = ['/detail', this.selectedPlayer.id];
