@@ -2,8 +2,7 @@ import {Component} from '@angular/core'
 
 @Component({
     selector: 'bengt',
-    moduleId: module.id,
-    styleUrls: ['app.component.css'],
+    styleUrls: ['./app.component.css'],
     template: `
         <div>
             <page-header></page-header>

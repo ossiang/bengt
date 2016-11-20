@@ -6,8 +6,7 @@ import { Player }                 from '../models/player';
 
 @Component({
   selector: 'player-detail',
-  moduleId: module.id,
-  templateUrl: 'player.detail.component.html'
+  templateUrl: './player.detail.component.html'
 })
 export class PlayerDetailComponent implements OnInit {
     player: Player;

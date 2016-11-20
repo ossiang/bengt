@@ -5,8 +5,7 @@ import { Comment }              from '../models/comment'
 import { ApiService }           from '../api.service'
 
 @Component({
-  moduleId: module.id,
-  templateUrl: 'training.section.component.html'
+  templateUrl: './training.section.component.html'
 })
 export class TrainingSectionComponent implements OnInit {
 
@@ -30,7 +29,7 @@ export class TrainingSectionComponent implements OnInit {
     ){
     }
 
-    ngOnInit() : void {        
+    ngOnInit() : void {
         let p1 = this.apiService.getPlayers().then(allPlayers => {
             this.allPlayers = allPlayers;
         });
@@ -66,9 +65,9 @@ export class TrainingSectionComponent implements OnInit {
                 this.commentMessage = "";
                 this.tuna();
             } else {
-                // todo: handle error 
+                // todo: handle error
             }
-        });    
+        });
     }
 
     commentDisabled() {
