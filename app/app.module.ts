@@ -12,6 +12,8 @@ import { TrainingSectionComponent } from './components/training.section.componen
 import { PlayerList }               from './components/player.list.component'
 import { CommentList }              from './components/comment.list.component'
 
+import { DatePipe }                 from './date.pipe'
+
 import { ApiService }               from './api.service'
 
 import { routing }                  from './app.routing'
@@ -34,7 +36,8 @@ import './rxjs.extensions'
     PlayerList,
     StatisticsComponent,
     TrainingSectionComponent,
-    CommentList
+    CommentList,
+    DatePipe
   ],
   providers: [ 
     ApiService
