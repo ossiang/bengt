@@ -18,8 +18,6 @@ import { ApiService }               from './api.service'
 
 import { routing }                  from './app.routing'
 
-// import './rxjs.extensions'
-
 @NgModule({
   imports: [
     BrowserModule,
