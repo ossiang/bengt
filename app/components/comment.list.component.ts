@@ -11,7 +11,7 @@ export class CommentList {
     comments : Comment[];
     
     getFormattedDate(ts) : string {
-        let x = ts + "000";
+        let x : any = ts + "000";
         let date = new Date(x - 0);
         let local = date.toLocaleString();
         return local.substr(0, local.length - 3);
