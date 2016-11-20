@@ -10,6 +10,7 @@ import { NavbarComponent }          from './components/navbar.component';
 import { PageHeaderComponent }      from './components/page.header.component';
 import { TrainingSectionComponent } from './components/training.section.component';
 import { PlayerList }               from './components/player.list.component'
+import { CommentList }              from './components/comment.list.component'
 
 import { ApiService }               from './api.service'
 
@@ -32,7 +33,8 @@ import './rxjs.extensions'
     PageHeaderComponent,
     PlayerList,
     StatisticsComponent,
-    TrainingSectionComponent
+    TrainingSectionComponent,
+    CommentList
   ],
   providers: [ 
     ApiService

@@ -1,6 +1,7 @@
 import { Component, OnInit }    from '@angular/core'
 import { Player }               from '../models/player'
 import { Training }             from '../models/training'
+import { Comment }              from '../models/comment'
 import { ApiService }           from '../api.service'
 
 @Component({
@@ -11,6 +12,11 @@ export class TrainingSectionComponent implements OnInit {
 
     selectedTraining : Training;
     selectedPlayer : Player;
+
+    commentName : string;
+    commentMessage : string;
+
+    comments : Comment[];
 
     allPlayers : Player[] = [];
     trainings : Training[] = [];
@@ -24,7 +30,7 @@ export class TrainingSectionComponent implements OnInit {
     ){
     }
 
-    ngOnInit() : void {
+    ngOnInit() : void {        
         let p1 = this.apiService.getPlayers().then(allPlayers => {
             this.allPlayers = allPlayers;
         });
@@ -32,7 +38,9 @@ export class TrainingSectionComponent implements OnInit {
             this.trainings = trainings;
             this.selectedTraining = trainings[0];
         });
-        Promise.all([p1, p2]).then(() => this.salmon());
+        Promise.all([p1, p2]).then(() => {
+            this.salmonAndTuna();
+        });
     }
 
     register() {
@@ -49,6 +57,33 @@ export class TrainingSectionComponent implements OnInit {
 
     unregisterDisabled() {
         return !this.selectedPlayer || this.notAttending.some(p => p.id === this.selectedPlayer.id);
+    }
+
+    addComment() {
+        this.apiService.createMessage(this.selectedTraining, this.commentName, this.commentMessage).then(result => {
+            if (result == true) {
+                this.commentName = "";
+                this.commentMessage = "";
+                this.tuna();
+            } else {
+                // todo: handle error 
+            }
+        });    
+    }
+
+    commentDisabled() {
+        return !this.commentName || !this.commentMessage;
+    }
+
+    salmonAndTuna() {
+        this.salmon();
+        this.tuna();
+    }
+
+    tuna() {
+        this.apiService.getMessages(this.selectedTraining).then(result => {
+            this.comments = result;
+        });
     }
 
     private salmon() {

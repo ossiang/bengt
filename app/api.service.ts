@@ -1,8 +1,9 @@
-import { Injectable }       from '@angular/core';
-import { Http }    from '@angular/http';
-import { Player }           from './models/player';
-import { Training }           from './models/training';
-import { TrainingRegistration }           from './models/trainingRegistration';
+import { Injectable }           from '@angular/core';
+import { Http }                 from '@angular/http';
+import { Player }               from './models/player';
+import { Training }             from './models/training';
+import { TrainingRegistration } from './models/trainingRegistration';
+import { Comment }              from './models/comment';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -32,9 +33,20 @@ export class ApiService {
         return this.getPlayers().then(result => result.find(p => p.id === id));
     }
 
-    getMessages(training : Training) : Promise<any[]> {
+    getMessages(training : Training) : Promise<Comment[]> {
         return this.get(`getMessages&trainingId=${training.id}`)
-            .then(data => data as any[]);
+            .then(data => data as Comment[]);
+    }
+
+    createMessage(training : Training, name : string, message : string) : Promise<boolean> {
+        let body = {
+            training: training.id,
+			name: name,
+			message: message
+        };
+        return this.post('createMessage', body).then(result => {
+            return result.messageSent
+        });
     }
 
     register(training : Training, player : Player, status) : Promise<boolean> {

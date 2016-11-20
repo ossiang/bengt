@@ -1,7 +1,7 @@
 <div class="col-md-4 col-md-offset-2">
   <div class="form-group">
     <label for="date">Datum</label>
-    <select class="form-control" [(ngModel)]="selectedTraining" (ngModelChange)="salmon()">
+    <select class="form-control" [(ngModel)]="selectedTraining" (ngModelChange)="salmonAndTuna()">
       <option *ngFor="let t of trainings" [ngValue]="t">
         {{t.date}}
       </option>
@@ -21,6 +21,18 @@
     <!--<div>{{selectedTraining | json}}</div>
     <div>{{selectedPlayer | json}}</div>-->
   </div>
+  <hr />
+  <h4>Kommentarer</h4>
+  <div class="form-group">
+    <input type="text" placeholder="Namn" class="form-control" [(ngModel)]="commentName" />
+  </div>
+  <div class="form-group">
+    <textarea class="form-control" placeholder="Skriv något..." [(ngModel)]="commentMessage"></textarea>
+  </div>
+  <div class="form-group">
+    <button class="btn btn-primary" (click)="addComment()" [disabled]="commentDisabled()">Kommentera</button>
+  </div>
+  <comment-list [comments]="comments"></comment-list>
 </div>
 <div class="col-md-4">
   <player-list [players]="attending" [title]="'Kommer'"></player-list>

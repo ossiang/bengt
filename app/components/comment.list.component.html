@@ -1,0 +1,10 @@
+<div>
+  <div *ngFor="let comment of comments">
+    <div><b>{{comment.name}}</b> | {{getFormattedDate(comment.ts)}}</div>
+    <p>
+      {{comment.message}}
+    </p>
+    <hr />
+  </div>
+</div>
+
