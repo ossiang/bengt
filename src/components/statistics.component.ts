@@ -5,33 +5,37 @@ import { OnInit }         from '@angular/core';
 import { Router }         from '@angular/router'
 
 @Component({
-  //selector: 'whatever',
-  templateUrl: './statistics.component.html',
+    //selector: 'whatever',
+    templateUrl: './statistics.component.html',
 })
 export class StatisticsComponent implements OnInit {
-  players: Player[];
-  selectedPlayer: Player;
 
-  constructor(
-    private apiService : ApiService,
-    private router : Router
+    trainingLeague : any[];
+    bringAFriendLeague : any[];
+    numTrainings : number;
+    numCancelledTrainings : number;
+    averageAttending : number;
+    averageAttendingGuest : number;
+
+    constructor(
+        private apiService : ApiService,
+        private router : Router
     ){}
 
-  ngOnInit(): void {
-    this.initPlayers();
-  }
+    ngOnInit(): void {
+        this.apiService.getStatistics().then(statistics => {
+            this.trainingLeague = statistics["trainingLeague"];
+            this.bringAFriendLeague = statistics["bringAFriendLeague"];
+            this.numTrainings = statistics.seasonStatistics["numTrainings"];
+            this.numCancelledTrainings = statistics.seasonStatistics["numCancelledTrainings"];
+            this.averageAttending = statistics.seasonStatistics["averageAttending"];
+            this.averageAttendingGuest = statistics.seasonStatistics["averageAttendingGuest"];
+        });
+    }
 
-  initPlayers() : void {
-    this.apiService.getPlayers().then(result => this.players = result);
-  }
-
-  onSelect(player : Player): void {
-    this.selectedPlayer = player;
-  }
-
-  gotoDetail() : void {
-    let link = ['/detail', this.selectedPlayer.id];
-    this.router.navigate(link);
-  }
+    // gotoDetail() : void {
+    //   let link = ['/detail', this.selectedPlayer.id];
+    //   this.router.navigate(link);
+    // }
 
 }

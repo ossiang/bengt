@@ -38,6 +38,10 @@ export class ApiService {
             .then(data => data as Comment[]);
     }
 
+    getStatistics() : Promise<any> {
+        return this.get(`getStatistics`).then(data => data as any);
+    }
+
     createMessage(training : Training, name : string, message : string) : Promise<boolean> {
         let body = {
             training: training.id,
