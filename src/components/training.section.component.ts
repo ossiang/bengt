@@ -30,7 +30,11 @@ export class TrainingSectionComponent implements OnInit {
     }
 
     ngOnInit() : void {
+        let selectedPlayerId = localStorage.getItem('selectedPlayerId');
         let p1 = this.apiService.getPlayers().then(allPlayers => {
+            if(selectedPlayerId) {
+                this.selectedPlayer = allPlayers.find(p => p.id === selectedPlayerId);
+            }
             this.allPlayers = allPlayers;
         });
         let p2 = this.apiService.getTrainings().then(trainings => {
@@ -43,6 +47,7 @@ export class TrainingSectionComponent implements OnInit {
     }
 
     register() {
+        localStorage.setItem('selectedPlayerId', this.selectedPlayer.id);
         this.apiService.register(this.selectedTraining, this.selectedPlayer, "1").then(r => this.salmon());
     }
 
@@ -51,6 +56,7 @@ export class TrainingSectionComponent implements OnInit {
     }
 
     unregister() {
+        localStorage.setItem('selectedPlayerId', this.selectedPlayer.id);
         this.apiService.register(this.selectedTraining, this.selectedPlayer, "0").then(r => this.salmon());
     }
 
