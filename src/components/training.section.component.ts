@@ -104,6 +104,15 @@ export class TrainingSectionComponent implements OnInit {
                     this.notAttending.push(player);
                 }
             }
+
+            var attendingGuests = result.filter(r => r.guest != null && r.status === "1");
+            for (var i = 0; i < attendingGuests.length; i++) {
+                var g = attendingGuests[i];
+                var guestPlayer = new Player();
+                guestPlayer.id = "-1";
+                guestPlayer.username = "Gäst: " + g.guest + " (" + this.allPlayers.find(p => p.id === g.name).username + ")";
+                this.attending.push(guestPlayer);
+            }
         });
     }
 }
