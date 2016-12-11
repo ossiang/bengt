@@ -15,12 +15,24 @@
       </option>
     </select>
   </div>
-  <div class="form-group">
-    <button class="btn btn-success" (click)="register()" [disabled]="registerDisabled()">Kommer</button>
-    <button class="btn btn-danger" (click)="unregister()" [disabled]="unregisterDisabled()">Kan inte...</button>
-    <!--<div>{{selectedTraining | json}}</div>
-    <div>{{selectedPlayer | json}}</div>-->
+  <div *ngIf="!showGuestForm">
+    <div class="form-group" *ngIf="!showGuestForm">
+      <button class="btn btn-success" (click)="register()" [disabled]="registerDisabled()">Kommer</button>
+      <button class="btn btn-danger" (click)="unregister()" [disabled]="unregisterDisabled()">Kan inte...</button>
+    </div>
   </div>
+  <div *ngIf="showGuestForm">
+    <div class="form-group">
+      <label for="player">Gäst</label>
+      <input class="form-control" type="text" [(ngModel)]="guest" />
+    </div>
+    <div class="form-group">
+      <button class="btn btn-success" (click)="registerGuest()" [disabled]="registerGuestDisabled()">Kommer</button>
+      <button class="btn btn-danger" (click)="unregisterGuest()" [disabled]="unregisterGuestDisabled()">Kan inte...</button>
+    </div>
+  </div>
+  <a role="button" [hidden]="showGuestForm" (click)="showGuestForm = !showGuestForm">Anmäl gästspelare</a>
+  <a role="button" [hidden]="!showGuestForm" (click)="showGuestForm = !showGuestForm">Anmäl ordinarie spelare</a>
   <hr />
   <h4>Kommentarer</h4>
   <div class="form-group">

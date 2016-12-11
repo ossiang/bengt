@@ -9,8 +9,12 @@ import { ApiService }           from '../api.service'
 })
 export class TrainingSectionComponent implements OnInit {
 
+    showGuestForm : boolean = false;
+
     selectedTraining : Training;
     selectedPlayer : Player;
+
+    guest : string;
 
     commentName : string;
     commentMessage : string;
@@ -64,6 +68,26 @@ export class TrainingSectionComponent implements OnInit {
         return !this.selectedPlayer || this.notAttending.some(p => p.id === this.selectedPlayer.id);
     }
 
+    registerGuest() {
+        this.apiService.registerGuest(this.selectedTraining, this.guest, this.selectedPlayer, "1").then(r => this.salmon());
+    }
+
+    registerGuestDisabled() {
+        return !this.selectedPlayer || 
+               !this.guest || 
+               this.attending.some(attendee => attendee.username == "Gäst: " + this.guest + " (" + this.selectedPlayer.username + ")");
+    }
+
+    unregisterGuest() {
+        this.apiService.registerGuest(this.selectedTraining, this.guest, this.selectedPlayer, "0").then(r => this.salmon());
+    }
+
+    unregisterGuestDisabled() {
+        return !this.selectedPlayer || 
+               !this.guest ||
+               this.notAttending.some(attendee => attendee.username == "Gäst: " + this.guest + " (" + this.selectedPlayer.username + ")");
+    }
+
     addComment() {
         this.apiService.createMessage(this.selectedTraining, this.commentName, this.commentMessage).then(result => {
             if (result == true) {
@@ -74,6 +98,10 @@ export class TrainingSectionComponent implements OnInit {
                 // todo: handle error
             }
         });
+    }
+
+    toggle() : void {
+        this.showGuestForm = !this.showGuestForm;
     }
 
     commentDisabled() {

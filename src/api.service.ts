@@ -64,6 +64,18 @@ export class ApiService {
         });
     }
 
+    registerGuest(training : Training, guest : string, friendOf : Player, status) : Promise<boolean> {
+        let body = {
+            training: training.id,
+            guest: guest,
+			player: friendOf.id,
+			status: status
+        };
+        return this.post('registerGuest', body).then(result => {
+            return result.registrationCompleted
+        });
+    }
+
     private handleError(error: any): Promise<any> {
         console.error('An error occurred', error); // for demo purposes only
         return Promise.reject(error.message || error);
