@@ -100,10 +100,6 @@ export class TrainingSectionComponent implements OnInit {
         });
     }
 
-    toggle() : void {
-        this.showGuestForm = !this.showGuestForm;
-    }
-
     commentDisabled() {
         return !this.commentName || !this.commentMessage;
     }
@@ -128,7 +124,7 @@ export class TrainingSectionComponent implements OnInit {
             for (var i = 0; i < this.allPlayers.length; i++) {
                 let player = this.allPlayers[i];
 
-                let response = result.find(tr => tr.name === player.id)
+                let response = result.find(tr => tr.guest == null && tr.name === player.id)
 
                 if (!response) {
                     this.notAnswered.push(player);
