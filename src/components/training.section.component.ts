@@ -36,10 +36,12 @@ export class TrainingSectionComponent implements OnInit {
     ngOnInit() : void {
         let selectedPlayerId = localStorage.getItem('selectedPlayerId');
         let p1 = this.apiService.getPlayers().then(allPlayers => {
-            if(selectedPlayerId) {
-                this.selectedPlayer = allPlayers.find(p => p.id === selectedPlayerId);
-            }
             this.allPlayers = allPlayers;
+            if(selectedPlayerId) {
+                this.selectedPlayer = this.allPlayers.find(p => p.id === selectedPlayerId);
+            } else if (this.allPlayers.length > 0) {
+                this.selectedPlayer = this.allPlayers[0];
+            }
         });
         let p2 = this.apiService.getTrainings().then(trainings => {
             this.trainings = trainings;
