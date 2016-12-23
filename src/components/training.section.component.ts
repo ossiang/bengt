@@ -1,5 +1,6 @@
 import { Component, OnInit }    from '@angular/core'
 import { Player }               from '../models/player'
+import { Attendee }             from '../models/attendee'
 import { Training }             from '../models/training'
 import { Comment }              from '../models/comment'
 import { ApiService }           from '../api.service'
@@ -24,9 +25,9 @@ export class TrainingSectionComponent implements OnInit {
     allPlayers : Player[] = [];
     trainings : Training[] = [];
 
-    attending : Player[] = [];
-    notAttending : Player[] = [];
-    notAnswered : Player[] = [];
+    attending : Attendee[] = [];
+    notAttending : Attendee[] = [];
+    notAnswered : Attendee[] = [];
 
     constructor(
         private apiService : ApiService
@@ -48,46 +49,46 @@ export class TrainingSectionComponent implements OnInit {
             this.selectedTraining = trainings[0];
         });
         Promise.all([p1, p2]).then(() => {
-            this.salmonAndTuna();
+            this.getTrainingSpecifics();
         });
     }
 
     register() {
         localStorage.setItem('selectedPlayerId', this.selectedPlayer.id);
-        this.apiService.register(this.selectedTraining, this.selectedPlayer, "1").then(r => this.salmon());
+        this.apiService.register(this.selectedTraining, this.selectedPlayer, "1").then(r => this.getAttendeeOverview());
     }
 
     registerDisabled() {
-        return !this.selectedPlayer || this.attending.some(p => p.id === this.selectedPlayer.id);
+        return !this.selectedPlayer || this.attending.some(a => !a.isGuest() && a.player.id === this.selectedPlayer.id);
     }
 
     unregister() {
         localStorage.setItem('selectedPlayerId', this.selectedPlayer.id);
-        this.apiService.register(this.selectedTraining, this.selectedPlayer, "0").then(r => this.salmon());
+        this.apiService.register(this.selectedTraining, this.selectedPlayer, "0").then(r => this.getAttendeeOverview());
     }
 
     unregisterDisabled() {
-        return !this.selectedPlayer || this.notAttending.some(p => p.id === this.selectedPlayer.id);
+        return !this.selectedPlayer || this.notAttending.some(a => !a.isGuest() && a.player.id === this.selectedPlayer.id);
     }
 
     registerGuest() {
-        this.apiService.registerGuest(this.selectedTraining, this.guest, this.selectedPlayer, "1").then(r => this.salmon());
+        this.apiService.registerGuest(this.selectedTraining, this.guest, this.selectedPlayer, "1").then(r => this.getAttendeeOverview());
     }
 
     registerGuestDisabled() {
         return !this.selectedPlayer || 
                !this.guest || 
-               this.attending.some(attendee => attendee.username == "Gäst: " + this.guest + " (" + this.selectedPlayer.username + ")");
+               this.attending.some(attendee => attendee.guest === this.guest);
     }
 
     unregisterGuest() {
-        this.apiService.registerGuest(this.selectedTraining, this.guest, this.selectedPlayer, "0").then(r => this.salmon());
+        this.apiService.registerGuest(this.selectedTraining, this.guest, this.selectedPlayer, "0").then(r => this.getAttendeeOverview());
     }
 
     unregisterGuestDisabled() {
         return !this.selectedPlayer || 
                !this.guest ||
-               this.notAttending.some(attendee => attendee.username == "Gäst: " + this.guest + " (" + this.selectedPlayer.username + ")");
+               this.notAttending.some(attendee => attendee.guest === this.guest);
     }
 
     addComment() {
@@ -95,7 +96,7 @@ export class TrainingSectionComponent implements OnInit {
             if (result == true) {
                 this.commentName = "";
                 this.commentMessage = "";
-                this.tuna();
+                this.getMessages();
             } else {
                 // todo: handle error
             }
@@ -106,18 +107,18 @@ export class TrainingSectionComponent implements OnInit {
         return !this.commentName || !this.commentMessage;
     }
 
-    salmonAndTuna() {
-        this.salmon();
-        this.tuna();
+    getTrainingSpecifics() {
+        this.getAttendeeOverview();
+        this.getMessages();
     }
 
-    tuna() {
+    getMessages() {
         this.apiService.getMessages(this.selectedTraining).then(result => {
             this.comments = result;
         });
     }
 
-    private salmon() {
+    private getAttendeeOverview() {
         this.apiService.getTrainingRegistrations(this.selectedTraining).then(result => {
             this.attending = [];
             this.notAttending = [];
@@ -129,22 +130,29 @@ export class TrainingSectionComponent implements OnInit {
                 let response = result.find(tr => tr.guest == null && tr.name === player.id)
 
                 if (!response) {
-                    this.notAnswered.push(player);
+                    this.notAnswered.push(new Attendee(player, "", null));
                 } else if (response.status === "1") {
-                    this.attending.push(player);
+                    this.attending.push(new Attendee(player, response.ts, null));
                 } else if (response.status === "0") {
-                    this.notAttending.push(player);
+                    this.notAttending.push(new Attendee(player, response.ts, null));
                 }
             }
 
             var attendingGuests = result.filter(r => r.guest != null && r.status === "1");
             for (var i = 0; i < attendingGuests.length; i++) {
                 var g = attendingGuests[i];
-                var guestPlayer = new Player();
-                guestPlayer.id = "-1";
-                guestPlayer.username = "Gäst: " + g.guest + " (" + this.allPlayers.find(p => p.id === g.name).username + ")";
-                this.attending.push(guestPlayer);
+                this.attending.push(new Attendee(this.allPlayers.find(p => p.id === g.name), g.ts, g.guest));
             }
+
+            var tsCompare = function(a, b){
+                if (a.ts > b.ts) {
+                    return 1;
+                }
+                return -1;
+            };
+
+            this.attending.sort(tsCompare);
+            this.notAttending.sort(tsCompare);
         });
     }
 }

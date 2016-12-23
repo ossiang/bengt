@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core'
-import { Player } from '../models/player'
+import { Attendee } from '../models/attendee'
 import { Router } from '@angular/router'
 
 @Component({
@@ -8,7 +8,7 @@ import { Router } from '@angular/router'
 })
 export class PlayerList {
     @Input()
-    players : Player[];
+    attendees : Attendee[];
 
     @Input()
     title : string;
@@ -18,8 +18,8 @@ export class PlayerList {
     ){
     }
 
-    gotoDetail(player : Player) : void {
-        let link = ['/detail', player.id];
+    goToDetail(attendee : Attendee) : void {
+        let link = ['/detail', attendee.player.id];
         this.router.navigate(link);
     }
 }

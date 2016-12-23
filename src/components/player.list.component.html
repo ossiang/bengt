@@ -1,8 +1,13 @@
 <div class="panel panel-default">
-  <div class="panel-heading">{{title}} ({{players.length}})</div>
+  <div class="panel-heading">{{title}} ({{attendees.length}})</div>
   <ul class="list-group">
-    <li *ngFor="let player of players" (click)="gotoDetail(player)" class="list-group-item">
-      {{player.username}}
+    <li *ngFor="let attendee of attendees" class="list-group-item" (click)="goToDetail(attendee)">
+      <span *ngIf="attendee.isGuest()">
+        {{attendee.guest}} (Gäst, kompis till {{attendee.player.username}})
+      </span>
+      <span *ngIf="attendee.isGuest() == false">
+        {{attendee.player.username}}
+      </span>
     </li>
   </ul>
 </div>

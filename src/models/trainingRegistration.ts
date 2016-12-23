@@ -1,5 +1,5 @@
 export class TrainingRegistration {
-    guest: boolean;
+    guest: string;
     name: string;
     status: string;
     ts: string;
