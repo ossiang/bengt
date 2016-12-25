@@ -1,0 +1,38 @@
+<div class="col-md-4 col-md-offset-2">
+    <div class="panel panel-default">
+        <div class="panel-heading">Spelare</div>
+        <ul class="list-group">
+            <li *ngFor="let p of players" 
+                [class.selected]="p === selectedPlayer"
+                (click)="onSelect(p)"
+                class="list-group-item">
+                <a role="button">{{p.username}}</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="col-md-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">Spelaregenskaper</div>
+        <div *ngIf="selectedPlayer == null" class="panel panel-body">Ingen spelare vald!</div>
+        <div *ngIf="selectedPlayer != null" class="panel panel-body">
+            <h4>{{selectedPlayer.username}}</h4>
+            <label>Anfall</label>
+            <progressbar [property]="playerProperties.attack"></progressbar>
+            <label>Försvar</label>
+            <progressbar [property]="playerProperties.defence"></progressbar>
+            <label>Passning</label>
+            <progressbar [property]="playerProperties.passing"></progressbar>
+            <label>Skott</label>
+            <progressbar [property]="playerProperties.shooting"></progressbar>
+            <label>Snabbhet</label>
+            <progressbar [property]="playerProperties.speed"></progressbar>
+            <label>Uthållighet</label>
+            <progressbar [property]="playerProperties.stamina"></progressbar>
+            <label>Styrka</label>
+            <progressbar [property]="playerProperties.strength"></progressbar>
+            <label>Teknik</label>
+            <progressbar [property]="playerProperties.technique"></progressbar>
+        </div>
+    </div>
+</div>

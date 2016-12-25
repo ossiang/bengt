@@ -1,0 +1,14 @@
+<div class="progress">
+    <div 
+        class="progress-bar" 
+        [ngClass]="getClass()"
+        role="progressbar" 
+        attr.aria-valuenow="{{property}}" 
+        aria-valuemin="0" 
+        aria-valuemax="100" 
+        [style.width.%]="getWidth()">
+        <span class="sr-only">{{property}}</span>
+    </div>
+</div>
+<!--
+[ngStyle]="{width:property/100 | percent:'1.0-1'}"-->
