@@ -30,7 +30,30 @@ export class StatisticsComponent implements OnInit {
             this.numCancelledTrainings = statistics.seasonStatistics["numCancelledTrainings"];
             this.averageAttending = statistics.seasonStatistics["averageAttending"];
             this.averageAttendingGuest = statistics.seasonStatistics["averageAttendingGuest"];
+
+            this.decorateWithPosition(this.trainingLeague);
+            this.decorateWithPosition(this.bringAFriendLeague);
         });
+    }
+
+    decorateWithPosition(array : any[]) : void {
+        var position = 0;
+            var current = -1;
+            for (var i = 0; i < array.length; i++) {
+                var x = array[i];
+                var count = x.count - 0;
+                if (i == 0) {
+                    position++;
+                    current = count;
+                } else {
+                    if (current > count) {
+                        position = i + 1;
+                        current = count;
+                    }
+                }
+
+                array[i].position = position;
+            }
     }
 
     // gotoDetail() : void {
