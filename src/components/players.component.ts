@@ -1,9 +1,9 @@
-import { Component }        from '@angular/core';
-import { Player }           from '../models/player';
-import { PlayerProperties } from '../models/playerProperties'
-import { ApiService }       from '../api.service';
-import { OnInit }           from '@angular/core';
-import { Router }           from '@angular/router'
+import { Component }              from '@angular/core';
+import { Player }                 from '../models/player';
+import { PlayerProperties }       from '../models/playerProperties'
+import { ApiService }             from '../api.service';
+import { OnInit }                 from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router'
 
 @Component({
     //selector: 'whatever',
@@ -12,30 +12,35 @@ import { Router }           from '@angular/router'
 export class PlayersComponent implements OnInit {
 
     players : Player[] = [];
-    selectedPlayer : Player;
+    player : Player;
     playerProperties : PlayerProperties;
 
     constructor(
         private apiService : ApiService,
-        private router : Router
+        private route : ActivatedRoute
     ){}
 
     ngOnInit(): void {
         this.apiService.getPlayers().then(allPlayers => {
             this.players = allPlayers;
-            this.selectedPlayer = this.players[0];
-            this.playerProperties = new PlayerProperties(this.selectedPlayer);
+            this.route.params.forEach((params: Params) => {
+                let id = params['id'];
+                if (id) {
+                    this.apiService.getPlayer(id).then(result => {
+                        this.player = result;
+                        this.playerProperties = new PlayerProperties(result);
+                    });
+                }
+            });
         });
     }
 
-    onSelect(player : Player) : void {
-        this.selectedPlayer = player;
-        this.playerProperties = new PlayerProperties(player);
+    onSelect(p : Player) : void {
+        this.player = p;
+        this.playerProperties = new PlayerProperties(p);
     }
 
-    // gotoDetail() : void {
-    //   let link = ['/detail', this.selectedPlayer.id];
-    //   this.router.navigate(link);
-    // }
-
+    isActive(p : Player) : boolean {
+        return p && this.player && p.id === this.player.id;
+    }
 }

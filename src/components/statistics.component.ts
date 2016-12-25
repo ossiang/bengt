@@ -56,9 +56,10 @@ export class StatisticsComponent implements OnInit {
             }
     }
 
-    // gotoDetail() : void {
-    //   let link = ['/detail', this.selectedPlayer.id];
-    //   this.router.navigate(link);
-    // }
-
+    goToDetail(item : any) : void {
+        this.apiService.getPlayerByUsername(item.username).then(p => {
+            let link = ['/players', p.id];
+            this.router.navigate(link);
+        })
+    }
 }

@@ -12,6 +12,10 @@ const appRoutes: Routes =
         component: PlayersComponent
     },
     {
+        path: 'players/:id',
+        component: PlayersComponent
+    },
+    {
         path: 'statistics',
         component: StatisticsComponent
     },

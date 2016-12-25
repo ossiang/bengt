@@ -19,7 +19,7 @@ export class PlayerList {
     }
 
     goToDetail(attendee : Attendee) : void {
-        let link = ['/detail', attendee.player.id];
+        let link = ['/players', attendee.player.id];
         this.router.navigate(link);
     }
 }

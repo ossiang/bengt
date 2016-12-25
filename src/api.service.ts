@@ -33,6 +33,10 @@ export class ApiService {
         return this.getPlayers().then(result => result.find(p => p.id === id));
     }
 
+    getPlayerByUsername(username : string) : Promise<Player> {
+        return this.getPlayers().then(result => result.find(p => p.username === username));
+    }
+
     getMessages(training : Training) : Promise<Comment[]> {
         return this.get(`getMessages&trainingId=${training.id}`)
             .then(data => data as Comment[]);

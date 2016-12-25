@@ -1,11 +1,19 @@
-<div *ngIf="player">
-    <h2>{{player.name}} details!</h2>
-    <div>
-        <label>id: </label>{{player.id}}</div>
-    <div>
-        <label>name: </label>
-        <input [(ngModel)]="player.name" placeholder="name" />
-    </div>
-    <button (click)="goBack()">Back</button>
-    <button (click)="save()">Save</button>
+<div *ngIf="player != null && playerProperties != null" class="panel panel-body">
+    <h4>{{player.username}}</h4>
+    <label>Anfall</label>
+    <progressbar [property]="playerProperties.attack"></progressbar>
+    <label>Försvar</label>
+    <progressbar [property]="playerProperties.defence"></progressbar>
+    <label>Passning</label>
+    <progressbar [property]="playerProperties.passing"></progressbar>
+    <label>Skott</label>
+    <progressbar [property]="playerProperties.shooting"></progressbar>
+    <label>Snabbhet</label>
+    <progressbar [property]="playerProperties.speed"></progressbar>
+    <label>Uthållighet</label>
+    <progressbar [property]="playerProperties.stamina"></progressbar>
+    <label>Styrka</label>
+    <progressbar [property]="playerProperties.strength"></progressbar>
+    <label>Teknik</label>
+    <progressbar [property]="playerProperties.technique"></progressbar>
 </div>

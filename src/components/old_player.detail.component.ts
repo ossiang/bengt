@@ -1,20 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit }      from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router'
 import { Location }               from '@angular/common'
 import { ApiService }             from '../api.service'
 import { Player }                 from '../models/player';
-import { PlayerProperties }       from '../models/playerProperties';
 
 @Component({
   selector: 'player-detail',
   templateUrl: './player.detail.component.html'
 })
 export class PlayerDetailComponent implements OnInit {
-    @Input()
     player: Player;
-
-    @Input()
-    playerProperties: PlayerProperties
 
     constructor(
       private apiService : ApiService,
@@ -25,6 +20,10 @@ export class PlayerDetailComponent implements OnInit {
     }
 
     ngOnInit() : void {
+      this.route.params.forEach((params: Params) => {
+        let id = +params['id'];
+        //this.apiService.getPlayer(id).then(result => this.player = result);
+      })
     }
 
     save() : void {
