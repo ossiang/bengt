@@ -45,14 +45,16 @@ export class StatisticsComponent implements OnInit {
                 if (i == 0) {
                     position++;
                     current = count;
+                    array[i].position = position + "" + ".";
                 } else {
                     if (current > count) {
                         position = i + 1;
                         current = count;
+                        array[i].position = position + "" + ".";
+                    } else {
+                        array[i].position = "";
                     }
                 }
-
-                array[i].position = position;
             }
     }
 
