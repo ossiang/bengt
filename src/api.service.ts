@@ -1,6 +1,7 @@
 import { Injectable }           from '@angular/core';
 import { Http }                 from '@angular/http';
 import { Player }               from './models/player';
+import { PlayerProperties }     from './models/playerProperties';
 import { Training }             from './models/training';
 import { TrainingRegistration } from './models/trainingRegistration';
 import { Comment }              from './models/comment';
@@ -77,6 +78,23 @@ export class ApiService {
         };
         return this.post('registerGuest', body).then(result => {
             return result.registrationCompleted
+        });
+    }
+
+    updatePlayer(player : Player, properties : PlayerProperties) : Promise<boolean> {
+        let body = {
+            player: player.id,
+            attack: properties.attack,
+            defence: properties.defence,
+            strength: properties.strength,
+            speed: properties.speed,
+            stamina: properties.stamina,
+            technique: properties.technique,
+            passing: properties.passing,
+            shooting: properties.shooting
+        };
+        return this.post('updatePlayer', body).then(result => {
+            return result.playerUpdated
         });
     }
 
