@@ -1,7 +1,7 @@
 <div class="col-md-4 col-md-offset-2">
   <div class="form-group">
     <label for="date">Datum</label>
-    <select class="form-control" [(ngModel)]="selectedTraining" (ngModelChange)="salmonAndTuna()">
+    <select class="form-control" [(ngModel)]="selectedTraining" (ngModelChange)="getTrainingSpecifics()">
       <option *ngFor="let t of trainings" [ngValue]="t">
         {{t.date}}
       </option>
