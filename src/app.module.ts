@@ -7,6 +7,7 @@ import { AppComponent }             from './components/app.component';
 import { PlayersComponent }         from './components/players.component';
 import { StatisticsComponent }      from './components/statistics.component';
 import { PlayerDetailComponent }    from './components/player.detail.component';
+import { PlayerEditComponent }      from './components/player.edit.component';
 import { NavbarComponent }          from './components/navbar.component';
 import { PageHeaderComponent }      from './components/page.header.component';
 import { TrainingSectionComponent } from './components/training.section.component';
@@ -32,6 +33,7 @@ import { routing }                  from './app.routing'
     StatisticsComponent,
     PlayersComponent,
     PlayerDetailComponent,
+    PlayerEditComponent,
     NavbarComponent,
     PageHeaderComponent,
     PlayerList,

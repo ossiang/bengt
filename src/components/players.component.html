@@ -15,7 +15,15 @@
 <div class="col-md-4">
     <div class="panel panel-default">
         <div class="panel-heading">Spelaregenskaper</div>
-        <div *ngIf="player == null" class="panel panel-body">Ingen spelare vald!</div>
-        <player-detail [player]="player" [playerProperties]="playerProperties"></player-detail>
+        <div *ngIf="player == null && !editMode" class="panel panel-body">
+            Ingen spelare vald!
+        </div>
+        <div *ngIf="player != null && !editMode" class="panel panel-body">
+            <player-detail [player]="player" [playerProperties]="playerProperties"></player-detail>
+            <a role="button" (click)="editMode = true">Ändra</a>
+        </div>
+        <div *ngIf="player != null && editMode" class="panel panel-body">
+            <player-edit [player]="player" [playerProperties]="playerProperties" (propertiesChanged)="updateProperties($event)"></player-edit>
+        </div>
     </div>
 </div>

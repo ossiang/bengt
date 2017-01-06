@@ -1,19 +1,19 @@
-<div *ngIf="player != null && playerProperties != null" class="panel panel-body">
+<div *ngIf="player != null && playerProperties != null">
     <h4>{{player.username}}</h4>
     <label>Anfall</label>
-    <progressbar [property]="playerProperties.attack"></progressbar>
+    <progressbar [property]="playerProperties.attack" [factor]="20"></progressbar>
     <label>Försvar</label>
-    <progressbar [property]="playerProperties.defence"></progressbar>
+    <progressbar [property]="playerProperties.defence" [factor]="20"></progressbar>
     <label>Passning</label>
-    <progressbar [property]="playerProperties.passing"></progressbar>
+    <progressbar [property]="playerProperties.passing" [factor]="20"></progressbar>
     <label>Skott</label>
-    <progressbar [property]="playerProperties.shooting"></progressbar>
+    <progressbar [property]="playerProperties.shooting" [factor]="20"></progressbar>
     <label>Snabbhet</label>
-    <progressbar [property]="playerProperties.speed"></progressbar>
+    <progressbar [property]="playerProperties.speed" [factor]="20"></progressbar>
     <label>Uthållighet</label>
-    <progressbar [property]="playerProperties.stamina"></progressbar>
+    <progressbar [property]="playerProperties.stamina" [factor]="20"></progressbar>
     <label>Styrka</label>
-    <progressbar [property]="playerProperties.strength"></progressbar>
+    <progressbar [property]="playerProperties.strength" [factor]="20"></progressbar>
     <label>Teknik</label>
-    <progressbar [property]="playerProperties.technique"></progressbar>
+    <progressbar [property]="playerProperties.technique" [factor]="20"></progressbar>
 </div>

@@ -1,0 +1,66 @@
+<div class="form-group">
+    <label>Anfall</label>
+    <select class="form-control" [(ngModel)]="newProperties.attack">
+        <option *ngFor="let opt of options" [ngValue]="opt">
+            {{opt}}
+        </option>
+    </select>
+</div>
+<div class="form-group">
+    <label>Försvar</label>
+    <select class="form-control" [(ngModel)]="newProperties.defence">
+        <option *ngFor="let opt of options" [ngValue]="opt">
+            {{opt}}
+        </option>
+    </select>
+</div>
+<div class="form-group">
+    <label>Passning</label>
+    <select class="form-control" [(ngModel)]="newProperties.passing">
+        <option *ngFor="let opt of options" [ngValue]="opt">
+            {{opt}}
+        </option>
+    </select>
+</div>
+<div class="form-group">
+    <label>Skott</label>
+    <select class="form-control" [(ngModel)]="newProperties.shooting">
+        <option *ngFor="let opt of options" [ngValue]="opt">
+            {{opt}}
+        </option>
+    </select>
+</div>
+<div class="form-group">
+    <label>Snabbhet</label>
+    <select class="form-control" [(ngModel)]="newProperties.speed">
+        <option *ngFor="let opt of options" [ngValue]="opt">
+            {{opt}}
+        </option>
+    </select>
+</div>
+<div class="form-group">
+    <label>Uthållighet</label>
+    <select class="form-control" [(ngModel)]="newProperties.stamina">
+        <option *ngFor="let opt of options" [ngValue]="opt">
+            {{opt}}
+        </option>
+    </select>
+</div>
+<div class="form-group">
+    <label>Styrka</label>
+    <select class="form-control" [(ngModel)]="newProperties.strength">
+        <option *ngFor="let opt of options" [ngValue]="opt">
+            {{opt}}
+        </option>
+    </select>
+</div>
+<div class="form-group">
+    <label>Teknik</label>
+    <select class="form-control" [(ngModel)]="newProperties.technique">
+        <option *ngFor="let opt of options" [ngValue]="opt">
+            {{opt}}
+        </option>
+    </select>
+</div>
+<button class="btn btn-primary" (click)="save()">Spara</button>
+<button class="btn btn-default" (click)="cancel()">Avbryt</button>

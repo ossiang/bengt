@@ -9,16 +9,17 @@ export class Progressbar {
     property : number;
 
     @Input()
-    title : string;
+    factor : number;
 
     getClass() {
-      if (this.property > 79) {
+      let value = this.property * this.factor;
+      if (value > 79) {
         return 'progress-bar-success';
       } 
-      // else if (this.property > 59) {
+      // else if (value > 59) {
       //   return 'progress-bar-info';
       // }
-      else if (this.property > 39) {
+      else if (value > 39) {
         return 'progress-bar-warning';
       }
       else {
@@ -27,16 +28,17 @@ export class Progressbar {
     }
 
     getWidth() {
-      if (this.property > 80) {
+      let value = this.property * this.factor;
+      if (value > 80) {
         return '100';
       } 
-      else if (this.property > 60) {
+      else if (value > 60) {
         return '75';
       }
-      else if (this.property > 40) {
+      else if (value > 40) {
         return '50';
       }
-      else if (this.property > 20) {
+      else if (value > 20) {
         return '25';
       }
       else {

@@ -21,6 +21,6 @@ export class PlayerProperties {
 
     transform(value : any) : number {
         let num = (value == null) ? 3 : value - 0;
-        return num * 20;
+        return num;
     }
 }
