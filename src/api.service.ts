@@ -98,6 +98,15 @@ export class ApiService {
         });
     }
 
+    addTraining(date : string) : Promise<boolean> {
+        let body = {
+            date: date
+        };
+        return this.post('addTraining', body).then(result => {
+            return result.trainingAdded
+        });
+    }
+
     private handleError(error: any): Promise<any> {
         console.error('An error occurred', error); // for demo purposes only
         return Promise.reject(error.message || error);
