@@ -21,7 +21,7 @@ export class ApiService {
     }
 
     getTrainings() : Promise<Training[]> {
-        return this.get('getTrainings')
+        return this.get('getRemainingTrainings')
             .then(data => data as Training[]);
     }
 
