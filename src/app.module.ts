@@ -14,6 +14,7 @@ import { TrainingSectionComponent } from './components/training.section.componen
 import { PlayerList }               from './components/player.list.component'
 import { CommentList }              from './components/comment.list.component'
 import { Progressbar }              from './components/progressbar.component'
+import { AdminComponent }           from './components/admin.component'
 
 import { DatePipe }                 from './date.pipe'
 
@@ -40,6 +41,7 @@ import { routing }                  from './app.routing'
     TrainingSectionComponent,
     CommentList,
     Progressbar,
+    AdminComponent,
     DatePipe
   ],
   providers: [

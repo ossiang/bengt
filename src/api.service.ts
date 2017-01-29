@@ -2,6 +2,7 @@ import { Injectable }           from '@angular/core';
 import { Http }                 from '@angular/http';
 import { Player }               from './models/player';
 import { PlayerProperties }     from './models/playerProperties';
+import { Attendee }             from './models/attendee';
 import { Training }             from './models/training';
 import { TrainingRegistration } from './models/trainingRegistration';
 import { Comment }              from './models/comment';
@@ -10,8 +11,8 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class ApiService {
-    // private url = 'http://localhost:8080/bengt/api.php?f=';  // URL to web api
-    private url = 'http://bengtfotboll.se/api/api.php?f=';  // URL to web api
+    // private url = 'http://localhost:8080/bengt/api.php?f=';
+    private url = 'http://bengtfotboll.se/api/api.php?f='; 
 
     constructor(private http: Http) { }
 
@@ -22,6 +23,11 @@ export class ApiService {
 
     getTrainings() : Promise<Training[]> {
         return this.get('getRemainingTrainings')
+            .then(data => data as Training[]);
+    }
+
+    getSeasonTrainings() : Promise<Training[]> {
+        return this.get('getSeasonTrainings')
             .then(data => data as Training[]);
     }
 
@@ -81,6 +87,29 @@ export class ApiService {
         });
     }
 
+    updateTrainingRegistration(training : Training, player : Player, status) : Promise<boolean> {
+        let body = {
+            training: training.id,
+			player: player.id,
+			status: status
+        };
+        return this.post('updateTrainingRegistration', body).then(result => {
+            return result;
+        });
+    }
+
+    updateTrainingRegistrationGuest(training : Training, guest : string, friendOf : Player, status) : Promise<boolean> {
+        let body = {
+            training: training.id,
+            guest: guest,
+			player: friendOf.id,
+			status: status
+        };
+        return this.post('updateTrainingRegistrationGuest', body).then(result => {
+            return result;
+        });
+    }
+
     updatePlayer(player : Player, properties : PlayerProperties) : Promise<boolean> {
         let body = {
             player: player.id,
@@ -98,17 +127,22 @@ export class ApiService {
         });
     }
 
-    addTraining(date : string) : Promise<boolean> {
+    addTraining(date : string) : Promise<Training> {
         let body = {
             date: date
         };
-        return this.post('addTraining', body).then(result => {
-            return result.trainingAdded
-        });
+        return this.post('addTraining', body).then(data => data as Training);
+    }
+
+    cancelTraining(training : Training) : Promise<Training> {
+        let body = {
+            training: training.id 
+        };
+        return this.post('cancelTraining', body).then(data => data as Training);
     }
 
     private handleError(error: any): Promise<any> {
-        console.error('An error occurred', error); // for demo purposes only
+        console.error('An error occurred', error);
         return Promise.reject(error.message || error);
     }
 

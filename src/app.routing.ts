@@ -4,6 +4,7 @@ import { PlayersComponent }         from './components/players.component';
 import { StatisticsComponent }      from './components/statistics.component';
 import { TrainingSectionComponent } from './components/training.section.component';
 import { PlayerDetailComponent }    from './components/player.detail.component';
+import { AdminComponent }           from './components/admin.component';
 
 const appRoutes: Routes = 
 [
@@ -31,6 +32,10 @@ const appRoutes: Routes =
     {
         path: 'detail/:id',
         component: PlayerDetailComponent
+    },
+    {
+        path: 'admin',
+        component: AdminComponent
     }
 ];
 export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);

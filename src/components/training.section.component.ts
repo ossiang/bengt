@@ -130,18 +130,18 @@ export class TrainingSectionComponent implements OnInit {
                 let response = result.find(tr => tr.guest == null && tr.name === player.id)
 
                 if (!response) {
-                    this.notAnswered.push(new Attendee(player, "", null));
+                    this.notAnswered.push(new Attendee(player, "", null, "-1"));
                 } else if (response.status === "1") {
-                    this.attending.push(new Attendee(player, response.ts, null));
+                    this.attending.push(new Attendee(player, response.ts, null, "1"));
                 } else if (response.status === "0") {
-                    this.notAttending.push(new Attendee(player, response.ts, null));
+                    this.notAttending.push(new Attendee(player, response.ts, null, "0"));
                 }
             }
 
             var attendingGuests = result.filter(r => r.guest != null && r.status === "1");
             for (var i = 0; i < attendingGuests.length; i++) {
                 var g = attendingGuests[i];
-                this.attending.push(new Attendee(this.allPlayers.find(p => p.id === g.name), g.ts, g.guest));
+                this.attending.push(new Attendee(this.allPlayers.find(p => p.id === g.name), g.ts, g.guest, "1"));
             }
 
             var tsCompare = function(a, b){

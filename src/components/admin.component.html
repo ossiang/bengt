@@ -1,0 +1,54 @@
+<div class="col-md-8 col-md-offset-2" *ngIf="!currentUserIsAdmin">
+    Du verkar sakna adminbehörighet!
+</div>
+<div class="col-md-8 col-md-offset-2" *ngIf="currentUserIsAdmin">
+    <div class="form-group">
+        <label for="date">Ny träning</label>
+        <input type="text" class="form-control" [(ngModel)]="newTraining" placeholder="åååå-mm-dd" />
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary" (click)="addTraining()" [disabled]="disableAddButton()">Lägg till</button>
+    </div>
+    <hr />
+    <div class="form-group">
+        <label for="date">Redigera träning</label>
+        <select class="form-control" [(ngModel)]="selectedTraining" (ngModelChange)="getTrainingSpecifics()">
+            <option *ngFor="let t of trainings" [ngValue]="t">
+                {{t.date}}
+            </option>
+        </select>
+    </div>
+    <div *ngIf="selectedTraining != undefined">
+        <div class="form-group">
+            <label for="cancelled">Inställd</label>
+            <input type="checkbox" [checked]="selectedTraining.cancelled === '1'" (change)="toggleCancelled()" />
+        </div>
+        <div *ngIf="selectedTraining.cancelled !== '1'">
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>Spelare</th>
+                        <th>Inget svar</th>
+                        <th>Frånvarande</th>
+                        <th>Anmäld</th>
+                        <th>Närvarande</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let a of allPlayersWithStatus">
+                        <td *ngIf="!a.guest">{{a.player.username}}</td>
+                        <td *ngIf="a.guest">Gäst: {{a.guest}}</td>
+                        <td><input type="radio" name="name_{{a.player.id}}" [checked]="a.status === -1" disabled="disabled"></td>
+                        <td><input type="radio" name="name_{{a.player.id}}" (click)="setStatus(a, 0)" [checked]="a.status === 0"></td>
+                        <td><input type="radio" name="name_{{a.player.id}}" (click)="setStatus(a, 1)" [checked]="a.status === 1"></td>
+                        <td><input type="radio" name="name_{{a.player.id}}" (click)="setStatus(a, 2)" [checked]="a.status === 2"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" (click)="verifyRegistered()" [disabled]="verifyRegisteredDisabled()">Verfiera anmälda</button>
+            <button class="btn btn-primary" (click)="save()" [disabled]="saveDisabled()">Spara</button>
+        </div>
+    </div>
+</div>
