@@ -21,7 +21,7 @@
     <div *ngIf="selectedTraining != undefined">
         <div class="form-group">
             <label for="cancelled">Inställd</label>
-            <input type="checkbox" [checked]="selectedTraining.cancelled === '1'" (change)="toggleCancelled()" />
+            <input type="checkbox" [checked]="selectedTraining.cancelled === '1'" (change)="toggleCancelled()" (disabled)="selectedTrainingCancelledDisabled" />
         </div>
         <div *ngIf="selectedTraining.cancelled !== '1'">
             <table class="table table-condensed">
@@ -38,10 +38,10 @@
                     <tr *ngFor="let a of allPlayersWithStatus">
                         <td *ngIf="!a.guest">{{a.player.username}}</td>
                         <td *ngIf="a.guest">Gäst: {{a.guest}}</td>
-                        <td><input type="radio" name="name_{{a.player.id}}" [checked]="a.status === -1" disabled="disabled"></td>
-                        <td><input type="radio" name="name_{{a.player.id}}" (click)="setStatus(a, 0)" [checked]="a.status === 0"></td>
-                        <td><input type="radio" name="name_{{a.player.id}}" (click)="setStatus(a, 1)" [checked]="a.status === 1"></td>
-                        <td><input type="radio" name="name_{{a.player.id}}" (click)="setStatus(a, 2)" [checked]="a.status === 2"></td>
+                        <td><input type="radio" name="name_{{a.player.id}}_{{a.guest}}" [checked]="a.status === -1" disabled="disabled"></td>
+                        <td><input type="radio" name="name_{{a.player.id}}_{{a.guest}}" (click)="setStatus(a, 0)" [checked]="a.status === 0"></td>
+                        <td><input type="radio" name="name_{{a.player.id}}_{{a.guest}}" (click)="setStatus(a, 1)" [checked]="a.status === 1"></td>
+                        <td><input type="radio" name="name_{{a.player.id}}_{{a.guest}}" (click)="setStatus(a, 2)" [checked]="a.status === 2"></td>
                     </tr>
                 </tbody>
             </table>

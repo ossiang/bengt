@@ -12,6 +12,7 @@ import { OnInit }         from '@angular/core';
 export class AdminComponent implements OnInit {
     currentUserIsAdmin : boolean = false;
     selectedTraining : Training;
+    selectedTrainingCancelledDisabled : boolean = false;
     trainings : Training[] = [];
     newTraining : string = "";
     allPlayers : Player[] = [];
@@ -82,12 +83,23 @@ export class AdminComponent implements OnInit {
     }
 
     toggleCancelled() : void {
-        this.selectedTraining.cancelled = (this.selectedTraining.cancelled === "0") ? "1" : "0";        
+        this.selectedTraining.cancelled = (this.selectedTraining.cancelled === "0") ? "1" : "0";
+        this.selectedTrainingCancelledDisabled = true;
+        this.apiService.cancelTraining(this.selectedTraining).then(result => {
+            this.selectedTrainingCancelledDisabled = false;
+        });
     }
 
     setStatus(attendee : Attendee, value : TrainingStatus) {
-        let p = this.allPlayersWithStatus.find(a => a.player.id === attendee.player.id);
-        p.status = value;
+        let x : Attendee;
+        if (attendee.guest) {
+            x = this.allPlayersWithStatus.find(a => a.player.id === attendee.player.id && a.guest === attendee.guest);
+        }
+        else {
+            x = this.allPlayersWithStatus.find(a => a.player.id === attendee.player.id && !a.guest);
+        }
+
+        x.status = value;
     }
 
     verifyRegisteredDisabled() : boolean {
@@ -132,6 +144,10 @@ export class AdminComponent implements OnInit {
     }
 
     saveDisabled() : boolean {
-        return this.allPlayersWithStatus && this.allPlayersWithStatus.some(attendee => attendee.status === TrainingStatus.IntendsToAttend);
+        if (!this.allPlayersWithStatus) {
+            return true;
+        }
+        let value = this.allPlayersWithStatus.some(attendee => attendee.status === TrainingStatus.IntendsToAttend);
+        return value;
     }
 }
