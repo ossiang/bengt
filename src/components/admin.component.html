@@ -54,4 +54,12 @@
             <button class="btn btn-primary" (click)="save()" [disabled]="saveDisabled() || saveInProgress">Spara</button>
         </div>
     </div>
+    <hr />
+    <div class="form-group">
+        <label for="date">Ny spelare</label>
+        <input type="text" class="form-control" [(ngModel)]="newPlayer" placeholder="Namn" />
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary" (click)="addPlayer()" [disabled]="newPlayer === ''">Lägg till</button>
+    </div>
 </div>

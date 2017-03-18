@@ -15,6 +15,7 @@ export class AdminComponent implements OnInit {
     selectedTrainingCancelledDisabled : boolean = false;
     trainings : Training[] = [];
     newTraining : string = "";
+    newPlayer : string = "";
     allPlayers : Player[] = [];
     allPlayersWithStatus : Attendee[];
     saveInProgress : boolean = false;
@@ -44,6 +45,12 @@ export class AdminComponent implements OnInit {
         this.apiService.addTraining(this.newTraining).then(result => {
             this.trainings.push(result);
             this.newTraining = "";
+        });
+    }
+
+    addPlayer() : void {
+        this.apiService.addPlayer(this.newPlayer).then(result => {
+            this.newPlayer = "";
         });
     }
 

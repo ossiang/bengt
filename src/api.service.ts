@@ -110,6 +110,15 @@ export class ApiService {
         });
     }
 
+    addPlayer(name : string) : Promise<boolean> {
+        let body = {
+            name: name
+        };
+        return this.post('addPlayer', body).then(result => {
+            return result.playerAdded
+        });
+    }
+
     updatePlayer(player : Player, properties : PlayerProperties) : Promise<boolean> {
         let body = {
             player: player.id,
