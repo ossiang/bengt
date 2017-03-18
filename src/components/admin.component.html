@@ -1,7 +1,10 @@
-<div class="col-md-8 col-md-offset-2" *ngIf="!currentUserIsAdmin">
+<div class="col-md-8 col-md-offset-2" *ngIf="currentUserIsAdmin == null">
+    Laddar...
+</div>
+<div class="col-md-8 col-md-offset-2" *ngIf="currentUserIsAdmin == false">
     Du verkar sakna adminbehörighet!
 </div>
-<div class="col-md-8 col-md-offset-2" *ngIf="currentUserIsAdmin">
+<div class="col-md-8 col-md-offset-2" *ngIf="currentUserIsAdmin == true">
     <div class="form-group">
         <label for="date">Ny träning</label>
         <input type="text" class="form-control" [(ngModel)]="newTraining" placeholder="åååå-mm-dd" />
@@ -48,7 +51,7 @@
         </div>
         <div class="form-group">
             <button class="btn btn-primary" (click)="verifyRegistered()" [disabled]="verifyRegisteredDisabled()">Verfiera anmälda</button>
-            <button class="btn btn-primary" (click)="save()" [disabled]="saveDisabled()">Spara</button>
+            <button class="btn btn-primary" (click)="save()" [disabled]="saveDisabled() || saveInProgress">Spara</button>
         </div>
     </div>
 </div>

@@ -10,13 +10,14 @@ import { OnInit }         from '@angular/core';
     templateUrl: './admin.component.html',
 })
 export class AdminComponent implements OnInit {
-    currentUserIsAdmin : boolean = false;
+    currentUserIsAdmin : boolean = null;
     selectedTraining : Training;
     selectedTrainingCancelledDisabled : boolean = false;
     trainings : Training[] = [];
     newTraining : string = "";
     allPlayers : Player[] = [];
     allPlayersWithStatus : Attendee[];
+    saveInProgress : boolean = false;
 
     constructor(
         private apiService : ApiService
@@ -115,31 +116,32 @@ export class AdminComponent implements OnInit {
     }
 
     save() : void {
+        this.saveInProgress = true;
+        var promises = [];
         for (var i = 0; i < this.allPlayersWithStatus.length; i++) {
             let attendee = this.allPlayersWithStatus[i];
             if (attendee.status === TrainingStatus.DidAttend) {
-                //console.log((attendee.guest ? "Gäst: " + attendee.guest : attendee.player.username) + " did attend");
                 if (attendee.guest) {
-                    this.apiService.updateTrainingRegistrationGuest(this.selectedTraining, attendee.guest, attendee.player, "2").then(result => {
-                        console.log(result);
-                    });
+                    promises.push(this.apiService.updateTrainingRegistrationGuest(this.selectedTraining, attendee.guest, attendee.player, "2"));
                 } else {
-                    this.apiService.updateTrainingRegistration(this.selectedTraining, attendee.player, "2").then(result => {
-                        console.log(result);
-                    });
+                    promises.push(this.apiService.updateTrainingRegistration(this.selectedTraining, attendee.player, "2"));
                 }
             } else if (attendee.status === TrainingStatus.WillNotAttend) {
-                //console.log((attendee.guest ? "Gäst: " + attendee.guest : attendee.player.username) + " did not attend");
                 if (attendee.guest) {
-                    this.apiService.updateTrainingRegistrationGuest(this.selectedTraining, attendee.guest, attendee.player, "0").then(result => {
-                        console.log(result);
-                    });
+                    promises.push(this.apiService.updateTrainingRegistrationGuest(this.selectedTraining, attendee.guest, attendee.player, "0"));
                 } else {
-                    this.apiService.updateTrainingRegistration(this.selectedTraining, attendee.player, "0").then(result => {
-                        console.log(result);
-                    });
-                } 
+                    promises.push(this.apiService.updateTrainingRegistration(this.selectedTraining, attendee.player, "0"));
+                }
             }
+        }
+
+        if (promises.length > 0) {
+            Promise.all(promises).then(() => {
+                console.log("finished!");
+                this.saveInProgress = false;
+            });
+        } else {
+            this.saveInProgress = false;
         }
     }
 
