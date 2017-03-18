@@ -32,12 +32,15 @@ export class AdminComponent implements OnInit {
         this.apiService.getPlayers().then(result => {
             this.allPlayers = result;
             let selectedPlayerId = localStorage.getItem('selectedPlayerId');
-            if(selectedPlayerId) {
+            if (selectedPlayerId) {
                 var p = this.allPlayers.find(p => p.id === selectedPlayerId);
                 if (p != null) {
                     this.currentUserIsAdmin = p.admin === "1";
+                    return;
                 }
-            }
+            } 
+            
+            this.currentUserIsAdmin = false;
         });
     }
 
