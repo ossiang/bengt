@@ -53,6 +53,10 @@ export class ApiService {
         return this.get(`getStatistics`).then(data => data as any);
     }
 
+    getStatisticsBySeason(seasonId : string) : Promise<any> {
+        return this.get(`getStatistics&seasonId=${seasonId}`).then(data => data as any);
+    }
+
     createMessage(training : Training, name : string, message : string) : Promise<boolean> {
         let body = {
             training: training.id,

@@ -10,6 +10,9 @@ import { Router }         from '@angular/router'
 })
 export class StatisticsComponent implements OnInit {
 
+    seasons : any[];
+    selectedSeason : any;
+
     trainingLeague : any[];
     bringAFriendLeague : any[];
     numTrainings : number;
@@ -20,20 +23,57 @@ export class StatisticsComponent implements OnInit {
     constructor(
         private apiService : ApiService,
         private router : Router
-    ){}
+    ){
+        this.seasons = new Array();
+        var currentYear = new Date().getFullYear();
+
+        let k = 0;
+        for (let year = 2011; year <= currentYear; year++) {
+            k++;
+            this.seasons.push( 
+                { 
+                    name: "Vår " + year,
+                    id: k
+                }
+            );
+            k++;
+            this.seasons.push( 
+                { 
+                    name: "Höst " + year,
+                    id: k
+                }
+            );
+        }
+
+        this.seasons.push({
+            name: "Marathontabellen",
+            id: 'all'
+        })
+    }
 
     ngOnInit(): void {
         this.apiService.getStatistics().then(statistics => {
-            this.trainingLeague = statistics["trainingLeague"];
-            this.bringAFriendLeague = statistics["bringAFriendLeague"];
-            this.numTrainings = statistics.seasonStatistics["numTrainings"];
-            this.numCancelledTrainings = statistics.seasonStatistics["numCancelledTrainings"];
-            this.averageAttending = statistics.seasonStatistics["averageAttending"];
-            this.averageAttendingGuest = statistics.seasonStatistics["averageAttendingGuest"];
-
-            this.decorateWithPosition(this.trainingLeague);
-            this.decorateWithPosition(this.bringAFriendLeague);
+            this.setStatisticDetails(statistics);
         });
+    }
+
+    changeSeason() : void {
+        let seasonId = this.selectedSeason.id;
+        this.apiService.getStatisticsBySeason(seasonId).then(statistics => {
+            this.setStatisticDetails(statistics);
+        });
+    }
+
+    setStatisticDetails(statistics : any) : void {
+        this.trainingLeague = statistics["trainingLeague"];
+        this.bringAFriendLeague = statistics["bringAFriendLeague"];
+        this.numTrainings = statistics.seasonStatistics["numTrainings"];
+        this.numCancelledTrainings = statistics.seasonStatistics["numCancelledTrainings"];
+        this.averageAttending = statistics.seasonStatistics["averageAttending"];
+        this.averageAttendingGuest = statistics.seasonStatistics["averageAttendingGuest"];
+
+        this.decorateWithPosition(this.trainingLeague);
+        this.decorateWithPosition(this.bringAFriendLeague);
     }
 
     decorateWithPosition(array : any[]) : void {
@@ -60,6 +100,9 @@ export class StatisticsComponent implements OnInit {
 
     goToDetail(item : any) : void {
         this.apiService.getPlayerByUsername(item.username).then(p => {
+            if (!p)  {
+                return;
+            }
             let link = ['/players', p.id];
             this.router.navigate(link);
         })
