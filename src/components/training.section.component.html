@@ -10,7 +10,7 @@
   <div class="form-group">
     <label for="player">Spelare</label>
     <select class="form-control" [(ngModel)]="selectedPlayer">
-      <option *ngFor="let player of allPlayers" [ngValue]="player"> 
+      <option *ngFor="let player of playerChoices" [ngValue]="player"> 
         {{player.username}}
       </option>
     </select>

@@ -22,6 +22,7 @@ export class TrainingSectionComponent implements OnInit {
 
     comments : Comment[];
 
+    playerChoices : Player[] = [];
     allPlayers : Player[] = [];
     trainings : Training[] = [];
 
@@ -37,11 +38,16 @@ export class TrainingSectionComponent implements OnInit {
     ngOnInit() : void {
         let selectedPlayerId = localStorage.getItem('selectedPlayerId');
         let p1 = this.apiService.getPlayers().then(allPlayers => {
-            this.allPlayers = allPlayers;
+            this.allPlayers = allPlayers.slice();
+            this.playerChoices = allPlayers.slice();
             if(selectedPlayerId) {
                 this.selectedPlayer = this.allPlayers.find(p => p.id === selectedPlayerId);
             } else if (this.allPlayers.length > 0) {
-                this.selectedPlayer = this.allPlayers[0];
+                let p = new Player();
+                p.id = "-1";
+                p.username = "- Välj -";
+                this.playerChoices.unshift(p);
+                this.selectedPlayer = this.playerChoices[0];
             }
         });
         let p2 = this.apiService.getTrainings().then(trainings => {
@@ -53,13 +59,17 @@ export class TrainingSectionComponent implements OnInit {
         });
     }
 
+    validPlayer() : boolean {
+        return this.selectedPlayer && this.selectedPlayer.id && this.allPlayers.filter(p => p.id == this.selectedPlayer.id).length === 1;
+    }
+
     register() {
         localStorage.setItem('selectedPlayerId', this.selectedPlayer.id);
         this.apiService.register(this.selectedTraining, this.selectedPlayer, "1").then(r => this.getAttendeeOverview());
     }
 
     registerDisabled() {
-        return !this.selectedPlayer || this.attending.some(a => !a.isGuest() && a.player.id === this.selectedPlayer.id);
+        return !this.validPlayer() || this.attending.some(a => !a.isGuest() && a.player.id === this.selectedPlayer.id);
     }
 
     unregister() {
@@ -68,7 +78,7 @@ export class TrainingSectionComponent implements OnInit {
     }
 
     unregisterDisabled() {
-        return !this.selectedPlayer || this.notAttending.some(a => !a.isGuest() && a.player.id === this.selectedPlayer.id);
+        return !this.validPlayer() || this.notAttending.some(a => !a.isGuest() && a.player.id === this.selectedPlayer.id);
     }
 
     registerGuest() {
@@ -76,7 +86,7 @@ export class TrainingSectionComponent implements OnInit {
     }
 
     registerGuestDisabled() {
-        return !this.selectedPlayer || 
+        return !this.validPlayer() || 
                !this.guest || 
                this.attending.some(attendee => attendee.guest === this.guest);
     }
@@ -86,7 +96,7 @@ export class TrainingSectionComponent implements OnInit {
     }
 
     unregisterGuestDisabled() {
-        return !this.selectedPlayer || 
+        return !this.validPlayer() || 
                !this.guest ||
                this.notAttending.some(attendee => attendee.guest === this.guest);
     }
